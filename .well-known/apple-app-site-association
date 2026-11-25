@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["W23BBWNV89.app.foldrr.ios"],
+        "components": [
+          { "/": "/join*", "comment": "Foldrr Crew invites open the app" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Join a Foldrr Crew</title>
+<meta name="description" content="A friend asked you to be in their Foldrr Crew.">
+<meta property="og:title" content="Join my Foldrr Crew">
+<meta property="og:description" content="Be the friend I can call when the urge to gamble hits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;600&display=swap">
+<link rel="stylesheet" href="/shared.css">
+</head>
+<body>
+<main>
+  <div class="brand"><svg viewBox="0 0 100 100" aria-hidden="true"><g fill="#A8B5FF"><polygon points="20,32 44,8 80,8 80,32"/><polygon points="20,35.6 44,35.6 44,92 20,92"/><polygon points="43,47 66,47 66,65 43,65"/></g></svg> Foldrr</div>
+  <div>
+    <div class="eyebrow">Crew invite</div>
+    <h1 id="title">A friend wants you in their Crew.</h1>
+  </div>
+  <p id="lead">When they get the urge to gamble, you hear from them so you can call or text. You never see amounts or sites. One promise: you never place a bet for them.</p>
+
+  <div class="card">
+    <div class="row"><span class="small">Crew code</span><button class="btn secondary" id="copy" style="height:36px;padding:0 16px;font-size:14px">Copy</button></div>
+    <div class="code" id="code">FOLD-····</div>
+  </div>
+
+  <a class="btn primary" id="open" href="#">Open in Foldrr</a>
+
+  <div class="card">
+    <strong>Don't have Foldrr yet?</strong>
+    <div class="step"><span class="num">1</span><p id="install">Install the TestFlight app from the App Store, then ask your friend to add you as a tester.</p></div>
+    <div class="step"><span class="num">2</span><p>Open this link again and tap <strong>Open in Foldrr</strong>. You go straight to the buddy screen. No sign-up, no payment.</p></div>
+  </div>
+
+  <div class="card">
+    <strong>Rather not install anything?</strong>
+    <p id="noapp">That's fine. Reply "OK" to your friend's message. They'll text you when they need you.</p>
+  </div>
+
+  <p class="small">Foldrr is a self-help tool, not treatment. Need help yourself? In the Netherlands call OpenOverGokken: 0800 24 000 22 (free, 24/7). <a href="/privacy/">Privacy</a></p>
+</main>
+<script>
+  // Set the public TestFlight link here once Apple has approved external testing.
+  const TESTFLIGHT = "";
+  const q = new URLSearchParams(location.search);
+  const raw = (q.get("c") || "").toUpperCase();
+  const m = raw.match(/FOLD-[A-Z0-9]{4}/);
+  const code = m ? m[0] : "";
+  const name = (q.get("n") || "").slice(0, 40);
+  const el = (id) => document.getElementById(id);
+  if (code) el("code").textContent = code;
+  if (name) {
+    el("title").textContent = name + " wants you in their Crew.";
+    el("noapp").textContent = "That's fine. Reply \"OK\" to " + name + "'s message. They'll text you when they need you.";
+  }
+  const appLink = "foldrr://join/" + encodeURIComponent(code) + (name ? "?n=" + encodeURIComponent(name) : "");
+  el("open").href = appLink;
+  if (TESTFLIGHT) {
+    el("install").innerHTML = 'Install Foldrr through TestFlight: <a href="' + TESTFLIGHT + '">tap here</a>.';
+  } else if (name) {
+    el("install").textContent = "Install the TestFlight app from the App Store, then ask " + name + " to add you as a tester.";
+  }
+  el("copy").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(code); el("copy").textContent = "Copied"; }
+    catch (e) { const r = document.createRange(); r.selectNodeContents(el("code")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  });
+</script>
+</body>
+</html>
